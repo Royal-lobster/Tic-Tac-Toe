@@ -116,6 +116,7 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="footer">Made by Srujan with React</div>
       <div className="canvas">
         <h1 className="gameName">Tic Tac Toe</h1>
         <div className="turnDisplay">
@@ -163,18 +164,31 @@ export default function Home() {
           body {
             margin: 0px;
             padding: 0px;
+            overflow: hidden;
+          }
+          .footer {
+            width: 100vw;
+            padding: 10px 0;
+            text-align: center;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #3369ff;
+            color: white;
           }
           .canvas {
             background-color: #222;
-            display: grid;
-            place-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
             width: 100vw;
           }
           .gameName {
             text-align: center;
+            margin-top: 10vh;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 50px;
+            font-size: min(50px, 10vw);
             color: #eee;
           }
           .turnDisplay {
@@ -192,6 +206,7 @@ export default function Home() {
             transition: all 0.6s ease-in-out;
             text-align: center;
             margin-bottom: 20px;
+            width: min(260px, 90vw);
           }
           .board {
             display: grid;
@@ -236,6 +251,7 @@ export default function Home() {
              box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
              text-align: center;
              position: relative;
+            width: min(310px, 90vw);
           }
           .newMatchBtn:active {
              top: 0.1em;
