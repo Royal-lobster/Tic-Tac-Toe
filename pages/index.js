@@ -3,14 +3,13 @@ import { useState, useRef, useEffect } from "react";
 export default function Home() {
   const [isFirstPlayerTurn, setIsFirstPlayerTurn] = useState(true);
   const [winner, setWinner] = useState(null);
-  const [isThereWinner, setIsThereWinner] = useState(false);
   const [firstPlayerScore, setFirstPlayerScore] = useState([]);
   const [secondPlayerScore, setSecondPlayerScore] = useState([]);
   const [cellSelectCount, setCellSelectCount] = useState(0);
 
   useEffect(() => {
     checkWinner();
-  }, [firstPlayerScore, secondPlayerScore]);
+  }, [cellSelectCount]);
 
   const WinnerNumbers = [
     [1, 2, 3],
@@ -20,7 +19,7 @@ export default function Home() {
     [2, 5, 8],
     [3, 6, 9],
     [1, 5, 9],
-    [7, 5, 3],
+    [3, 5, 7],
   ];
 
   const cell_1 = useRef();
@@ -38,42 +37,37 @@ export default function Home() {
       for (var j = 0; j < 3; j++) {
         if (!firstPlayerScore.includes(WinnerNumbers[i][j])) {
           break;
-        } else if (j == 2) {
-          setIsThereWinner(true);
+        } else if (j === 2) {
           setIsFirstPlayerTurn(true);
           setWinner("🎊 Green wins 🎊");
+          return;
         }
       }
-      if (j == 2) break;
     }
-    if (!isThereWinner) {
+    if (winner === null) {
       for (var i = 0; i < 8; i++) {
         for (var j = 0; j < 3; j++) {
           if (!secondPlayerScore.includes(WinnerNumbers[i][j])) {
             break;
-          } else if (j == 2) {
-            setIsThereWinner(true);
+          } else if (j === 2) {
             setIsFirstPlayerTurn(false);
             setWinner("🎊 Red wins 🎊");
+            return;
           }
         }
-        if (j == 2) break;
       }
-      if (!isThereWinner) {
-        if (cellSelectCount == 9) {
-          setWinner("🏳️ Match Draw 🏳️");
-          setIsFirstPlayerTurn("Draw");
-        }
-      }
+    }
+    if (cellSelectCount == 9 && winner == null) {
+      setWinner("🏳️ Match Draw 🏳️");
+      setIsFirstPlayerTurn("Draw");
     }
   };
 
   var cellSelect = (cellNumber, cellRef) => {
-    setCellSelectCount(cellSelectCount + 1);
     if (
       cellRef.current.style.backgroundColor != "green" &&
       cellRef.current.style.backgroundColor != "red" &&
-      !isThereWinner
+      winner === null
     ) {
       if (cellRef.current != null) {
         cellRef.current.style.backgroundColor = isFirstPlayerTurn
@@ -85,6 +79,7 @@ export default function Home() {
           setSecondPlayerScore([...secondPlayerScore, cellNumber]);
         }
       }
+      setCellSelectCount(cellSelectCount + 1);
       setIsFirstPlayerTurn(!isFirstPlayerTurn);
     }
   };
@@ -103,7 +98,6 @@ export default function Home() {
     setFirstPlayerScore([]);
     setSecondPlayerScore([]);
     setWinner(null);
-    setIsThereWinner(false);
     setCellSelectCount(0);
   };
   return (
