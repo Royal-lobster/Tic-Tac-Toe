@@ -1,3 +1,3 @@
 <p align="center">
-  <img src="./interface.png"/>  
+  <img src="./screenshot.png"/>  
 </p>
